@@ -26,8 +26,11 @@
 
         <h4>就地复用, 勾选删除</h4>
         <ul>
-            <li v-for="(value,index) in arr">
-                <input type="checkbox" :checked="value.isCanDel" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
+            <li v-for="(value,index) in arr" :key="value.id" >
+                <input type="checkbox" 
+                :checked="value.isCanDel" 
+                
+                v-model="value.isCanDel">
                 
                 <!-- 这种情况下不会产生就地复用 -->
                 <!-- <input type="checkbox" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"> -->
@@ -46,30 +49,29 @@
         </ul>
 
         <h4>就地复用, 勾选删除, 使用 element ui.</h4>
-        <ul>
-            <li v-for="(value,index) in arr">
-               <el-row :gutter="15">
-                    <el-col :span="4"><input type="checkbox" :checked="value.isCanDel" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"></el-col>
-                   
-                   <!-- 这种情况下不会产生就地复用 -->
-                   <!-- <input type="checkbox" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"> -->
-                   
-                   <!-- 以下两种情况都会 "就地复用" 
-                       
-                       <input type="checkbox" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
-                   
-                       <input type="checkbox" :key="index" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
-                   -->
-                   <el-col :span="8">
-                       <span> {{value.text}} </span>
-                   </el-col>
-                   
-                   <el-col :span="8">
-                       <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
-                   </el-col>
-               </el-row>
-            </li>
-        </ul>
+       
+           <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id">
+
+                <!-- <el-col :span="4"><input type="checkbox" :checked="value.isCanDel" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"></el-col> -->
+
+                <el-col :span="4">
+                    <el-checkbox
+                        :checked="value.isCanDel"
+                        v-model="value.isCanDel"
+                        
+                        ></el-checkbox>
+                </el-col>
+          
+               <el-col :span="8">
+                   <span> {{value.text}} </span>
+               </el-col>
+               
+               <el-col :span="8">
+                   <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
+               </el-col>
+
+           </el-row>
+        
 
         <h4>批量删除和全选</h4>
 
