@@ -50,7 +50,7 @@
 
         <h4>就地复用, 勾选删除, 使用 element ui.</h4>
        
-           <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id">
+           <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id" class="table-row">
 
                 <!-- <el-col :span="4"><input type="checkbox" :checked="value.isCanDel" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"></el-col> -->
 
@@ -60,13 +60,15 @@
                         v-model="value.isCanDel"
                         
                         ></el-checkbox>
+
+                    <span> {{value.text}} </span>
                 </el-col>
           
                <el-col :span="8">
-                   <span> {{value.text}} </span>
+                   
                </el-col>
                
-               <el-col :span="8">
+               <el-col :span="8" class="text-right">
                    <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
                </el-col>
 
@@ -82,11 +84,10 @@
 
         <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
         <ul>
-            <li v-for="(value,index) in bookArr">
+            <li v-for="(value,index) in bookArr" key="value.id">
                 <input 
                     type="checkbox" 
                     :value="index" 
-                    key="value.id"
                     v-model="bookIds">
                 
                
@@ -96,6 +97,30 @@
         </ul>
     
         <el-button type="danger" @click="deleteItems">delete</el-button>
+
+        <!-- <h4>批量删除和全选, 使用 element-ui</h4>
+        
+        <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
+        <el-button @click="addBookItem" type="primary">Add One</el-button>
+        
+        <input type="checkbox" v-model="checkAllBooks" @click="toggleCheckAll"> 全选
+        
+        <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
+        <ul>
+            
+            <li v-for="(value,index) in bookArr" key="value.id">
+                <input 
+                    type="checkbox" 
+                    :value="index" 
+                    v-model="bookIds">
+                
+               
+                <span> {{value.text}} </span>
+        
+            </li>
+        </ul>
+    
+        <el-button type="danger" @click="deleteItems">delete</el-button> -->
 
     </div>
 </template>
@@ -244,6 +269,13 @@
     }
 </script>
 
-<style>
-    
+<style scoped>
+    .text-right {
+        text-align: right;
+    }
+
+    .table-row {
+        height: 40px;
+        margin-bottom: 5px;
+    }
 </style>
