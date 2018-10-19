@@ -1,12 +1,14 @@
 <template>
     <div id="app">
-       <ForDirective></ForDirective> 
+       <!-- <ForDirective></ForDirective>  -->
+       <VueComponent></VueComponent>
     </div>
 </template>
 
 <script>
 
     import ForDirective from './components/ForDirective.vue'
+    import VueComponent from './components/VueComponent.vue'
 
     export default {
         name: 'app',
@@ -22,7 +24,8 @@
           
         },
         components: {
-            ForDirective
+            ForDirective,
+            VueComponent,
         }
         
         

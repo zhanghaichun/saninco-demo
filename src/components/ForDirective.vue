@@ -9,7 +9,7 @@
 
         -->
 
-        <EleInput></EleInput>
+         
 
         <h4>字符串的遍历</h4>
         <h5>原字符串： {{msg2}}</h5>
@@ -24,13 +24,16 @@
             <li v-for="(value, key, index) in person"> {{key}} - {{value}} - {{index}} </li>
         </ul>
 
-        <h4>就地复用, 勾选删除</h4>
+
+         <h4>就地复用, 勾选删除</h4>
         <ul>
             <li v-for="(value,index) in arr" :key="value.id" >
+                
                 <input type="checkbox" 
                 :checked="value.isCanDel" 
-                
                 v-model="value.isCanDel">
+
+                
                 
                 <!-- 这种情况下不会产生就地复用 -->
                 <!-- <input type="checkbox" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"> -->
@@ -48,11 +51,13 @@
             </li>
         </ul>
 
-        <h4>就地复用, 勾选删除, 使用 element ui.</h4>
        
+
+        <h4>就地复用, 勾选删除, 使用 element ui.</h4>
+           
            <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id" class="table-row">
 
-                <!-- <el-col :span="4"><input type="checkbox" :checked="value.isCanDel" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"></el-col> -->
+                
 
                 <el-col :span="4">
                     <el-checkbox
@@ -64,63 +69,67 @@
                     <span> {{value.text}} </span>
                 </el-col>
           
-               <el-col :span="8">
-                   
-               </el-col>
+               
                
                <el-col :span="8" class="text-right">
                    <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
                </el-col>
 
            </el-row>
+
+
+
+
+           <h4>批量删除和全选</h4>
+
+           <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
+           <button @click="addBookItem" type="primary">Add One</button>
+           
+           <input type="checkbox" v-model="checkAllBooks" @click="toggleCheckAll"> 全选
+
+           <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
+           <ul>
+               <li v-for="(item,index) in bookArr" :key="item.id">
+                   <input 
+                       type="checkbox" 
+                       :value="index" 
+                       v-model="bookIds">
+                   
+                  
+                   <span> {{item.text}} </span>
+
+               </li>
+           </ul>
+           
+           <button @click="deleteItems">delete</button>
+
+
+            
         
 
-        <h4>批量删除和全选</h4>
+        
 
+        <h4>批量删除和全选, 使用 element-ui</h4>
+        
         <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
         <el-button @click="addBookItem" type="primary">Add One</el-button>
+       
+        <el-checkbox v-model="checkAllBooks" :indeterminate="isIndeterminate" @change="toggleCheckAllEle">全选</el-checkbox>
         
-        <input type="checkbox" v-model="checkAllBooks" @click="toggleCheckAll"> 全选
-
-        <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
+        <el-checkbox type="checkbox" @change="reverseSelect" v-model="reverseSelectBook"> 反选 </el-checkbox>
         <ul>
-            <li v-for="(value,index) in bookArr" key="value.id">
-                <input 
-                    type="checkbox" 
-                    :value="index" 
-                    v-model="bookIds">
-                
-               
-                <span> {{value.text}} </span>
-
-            </li>
+            
+            <el-checkbox-group v-model="bookIds">
+                <li v-for="(value,index) in bookArr" :key="value.id">
+                    
+                    <el-checkbox :label="index"> &nbsp;</el-checkbox>
+                    <span> {{value.text}} </span>
+            
+                </li>
+            </el-checkbox-group>
         </ul>
     
         <el-button type="danger" @click="deleteItems">delete</el-button>
-
-        <!-- <h4>批量删除和全选, 使用 element-ui</h4>
-        
-        <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
-        <el-button @click="addBookItem" type="primary">Add One</el-button>
-        
-        <input type="checkbox" v-model="checkAllBooks" @click="toggleCheckAll"> 全选
-        
-        <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
-        <ul>
-            
-            <li v-for="(value,index) in bookArr" key="value.id">
-                <input 
-                    type="checkbox" 
-                    :value="index" 
-                    v-model="bookIds">
-                
-               
-                <span> {{value.text}} </span>
-        
-            </li>
-        </ul>
-    
-        <el-button type="danger" @click="deleteItems">delete</el-button> -->
 
     </div>
 </template>
@@ -162,14 +171,16 @@
                 bookIds: [], // 选中项
 
                 bookItemsText: '',
+
+                isIndeterminate: true,
             }
             
         },
 
         methods: {
 
-            addBookItem() {
-
+            addBookItem(e) {
+                
                 if (this.bookArr) {
 
                     this.bookArr.push({id: this.bookArr.length + 1, text: this.bookItemsText });
@@ -233,6 +244,21 @@
                 
             },
 
+            /*全选按钮的功能。*/
+            toggleCheckAllEle(e, val) {
+                
+                if ( val ) {
+                    getArrayIndexs(this.bookArr, this.bookIds);
+
+                } else {
+                    this.bookIds = [];
+                }
+
+                this.isIndeterminate = false;
+                
+                
+            },
+
             /*反选按钮执行的操作*/
             reverseSelect() {
 
@@ -277,5 +303,8 @@
     .table-row {
         height: 40px;
         margin-bottom: 5px;
+    }
+    .el-checkbox-group {
+        font-size: 14px;
     }
 </style>
