@@ -1,143 +1,119 @@
 <template>
 
-    <div class="for-directive">          
-        <!-- v-for 指令可以接收的四个参数类型 Array, Object, Number, String 
-            1, 除了 Object, 其他类型都可以接受两个参数， value , index
-            2, Object 类型的数据可以接受三个参数 key, value, index
-            
-            多种 v-for 指令的例子。
+  <div class="for-directive">          
+    <!-- v-for 指令可以接收的四个参数类型 Array, Object, Number, String 
+        1, 除了 Object, 其他类型都可以接受两个参数， value , index
+        2, Object 类型的数据可以接受三个参数 key, value, index
+        
+        多种 v-for 指令的例子。
 
-        -->
-
-         
-
-        <h4>字符串的遍历</h4>
-        <h5>原字符串： {{msg2}}</h5>
-        <ul>
-            <li v-for="(item, index) in msg2">
-                {{item}} - {{index}}
-            </li>
-        </ul>
-
-        <h4>v-for指令值是对象</h4>
-        <ul>
-            <li v-for="(value, key, index) in person"> {{key}} - {{value}} - {{index}} </li>
-        </ul>
-
-
-         <h4>就地复用, 勾选删除</h4>
-        <ul>
-            <li v-for="(value,index) in arr" :key="value.id" >
-                
-                <input type="checkbox" 
-                :checked="value.isCanDel" 
-                v-model="value.isCanDel">
-
-                
-                
-                <!-- 这种情况下不会产生就地复用 -->
-                <!-- <input type="checkbox" :key="value.id" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"> -->
-                
-                <!-- 以下两种情况都会 "就地复用"
-                    
-                    <input type="checkbox" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
-
-                    <input type="checkbox" :key="index" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
-
-                 -->
-                <span> {{value.text}} </span>
-
-                <button @click="deleteItem(index)">delete</button>
-            </li>
-        </ul>
+    -->
 
        
 
-        <h4>就地复用, 勾选删除, 使用 element ui.</h4>
-           
-           <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id" class="table-row">
+  <h4>字符串的遍历</h4>
+  <h5>原字符串： {{msg2}}</h5>
+  <ul>
+      <li v-for="(item, index) in msg2">
+          {{item}} - {{index}}
+      </li>
+  </ul>
 
-                
+  <h4>v-for指令值是对象</h4>
+  <ul>
+      <li v-for="(value, key, index) in person"> {{key}} - {{value}} - {{index}} </li>
+  </ul>
 
-                <el-col :span="4">
-                    <el-checkbox
-                        :checked="value.isCanDel"
-                        v-model="value.isCanDel"
-                        
-                        ></el-checkbox>
 
-                    <span> {{value.text}} </span>
-                </el-col>
+  <h4>就地复用, 勾选删除</h4>
+  <ul>
+    <li v-for="(value,index) in arr" :key="value.id" >
+        
+      <!--<input type="checkbox" -->
+      <!--:checked="value.isCanDel" -->
+      <!--v-model="value.isCanDel">-->
+        <input type="checkbox" :key="index" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
+        
+      <!-- 这种情况下不会产生就地复用 -->
+      <!-- <input type="checkbox" :key="value.id"
+                                @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)"> -->
+      
+      <!-- 以下两种情况都会 "就地复用"
           
-               
-               
-               <el-col :span="8" class="text-right">
-                   <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
-               </el-col>
+          <input type="checkbox" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
 
-           </el-row>
+          <input type="checkbox" :key="index" @click="value.isCanDel == false ?(value.isCanDel = true) : (value.isCanDel = false)">
+
+       -->
+      <span> {{value.text}} </span>
+
+      <button @click="deleteItem(index)">delete</button>
+      
+    </li>
+  </ul>
+
+     
+
+  <h4>就地复用, 勾选删除, 使用 element ui.</h4>
+         
+  <el-row :gutter="15" v-for="(value,index) in arr" :key="value.id" class="table-row">
+
+      
+
+      <el-col :span="4">
+          <el-checkbox
+              :checked="value.isCanDel"
+              v-model="value.isCanDel"
+              
+              ></el-checkbox>
+
+          <span> {{value.text}} </span>
+      </el-col>
+
+     
+     
+     <el-col :span="8" class="text-right">
+         <el-button type="danger" size="small" @click="deleteItem(index)">delete</el-button>
+     </el-col>
+
+  </el-row>
 
 
 
+          
+      
 
-           <h4>批量删除和全选</h4>
+      
 
-           <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
-           <button @click="addBookItem" type="primary">Add One</button>
-           
-           <input type="checkbox" v-model="checkAllBooks" @click="toggleCheckAll"> 全选
-
-           <input type="checkbox" @click="reverseSelect" v-model="reverseSelectBook"> 反选
-           <ul>
-               <li v-for="(item,index) in bookArr" :key="item.id">
-                   <input 
-                       type="checkbox" 
-                       :value="index" 
-                       v-model="bookIds">
-                   
+      <h4>批量删除和全选, 使用 element-ui</h4>
+      
+      <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
+      <el-button @click="addBookItem" type="primary">Add One</el-button>
+     
+      <el-checkbox v-model="checkAllBooks" :indeterminate="isIndeterminate" @change="toggleCheckAllEle">全选</el-checkbox>
+      
+      <el-checkbox type="checkbox" @change="reverseSelect" v-model="reverseSelectBook"> 反选 </el-checkbox>
+      <ul>
+          
+          <el-checkbox-group v-model="bookIds">
+              <li v-for="(value,index) in bookArr" :key="value.id">
                   
-                   <span> {{item.text}} </span>
+                  <el-checkbox :label="index"> &nbsp;</el-checkbox>
+                  <span> {{value.text}} </span>
+          
+              </li>
+          </el-checkbox-group>
+      </ul>
+  
+      <el-button type="danger" @click="deleteItems">delete</el-button>
 
-               </li>
-           </ul>
-           
-           <button @click="deleteItems">delete</button>
-
-
-            
-        
-
-        
-
-        <h4>批量删除和全选, 使用 element-ui</h4>
-        
-        <input type="text" @keydown.enter="addBookItem" v-model="bookItemsText" placeholder="Input One Item Name">
-        <el-button @click="addBookItem" type="primary">Add One</el-button>
-       
-        <el-checkbox v-model="checkAllBooks" :indeterminate="isIndeterminate" @change="toggleCheckAllEle">全选</el-checkbox>
-        
-        <el-checkbox type="checkbox" @change="reverseSelect" v-model="reverseSelectBook"> 反选 </el-checkbox>
-        <ul>
-            
-            <el-checkbox-group v-model="bookIds">
-                <li v-for="(value,index) in bookArr" :key="value.id">
-                    
-                    <el-checkbox :label="index"> &nbsp;</el-checkbox>
-                    <span> {{value.text}} </span>
-            
-                </li>
-            </el-checkbox-group>
-        </ul>
-    
-        <el-button type="danger" @click="deleteItems">delete</el-button>
-
-    </div>
+  </div>
 </template>
 
 <script>
 
     import { getArrayIndexs } from '../helpers/index.js'
-    import EleInput from './EleInput.vue'
+    import EleInput from './Home.vue'
 
     export default {
         data() {
@@ -193,6 +169,8 @@
 
                 if ( this.arr[index].isCanDel == true ) {
 
+                    // 使用 JS 变异方法来删除数组中的
+                    // 一个元素。按照指定的索引来删除。
                     this.arr.splice(index, 1);
 
                 }
@@ -204,6 +182,7 @@
             deleteItems() {
 
                 // 过滤出未被选中的项。
+                // 将这个数组的值作为新的数组。
                 let newArr = this.bookArr.filter( (value, index) => {
                     return this.bookIds.indexOf( index ) < 0;
                 });
@@ -211,7 +190,10 @@
                 // let newArr = this.arr2.filter( function(value, index) {
                 //     return this.fruitIds.indexOf( index ) < 0;
                 // }, this);
-                
+
+                // 采用赋值数组的方式
+                // 由于 Vue 对这种方式加强了处理
+                // 所以这种赋值的方式不会降低效率。
                 this.bookArr = newArr;
                 this.bookIds = [];
 
@@ -245,9 +227,9 @@
             },
 
             /*全选按钮的功能。*/
-            toggleCheckAllEle(e, val) {
+            toggleCheckAllEle() {
                 
-                if ( val ) {
+                if ( this.checkAllBooks ) {
                     getArrayIndexs(this.bookArr, this.bookIds);
 
                 } else {
@@ -263,17 +245,23 @@
             reverseSelect() {
 
 
-                let arrayOfIndex = []; // Object.keys( this.bookArr ) -- 这个方法会把数组中的索引都转换为 字符串类型，在使用 indexOf 方法进行索引的时候需要注意
 
-               /* this.bookArr.forEach( (value, index) => {
-                    arrayOfIndex.push(index);
-                } );*/
+                // Object.keys( this.bookArr ) -- 这个方法会把数组中的索引都转换为
+                // 字符串类型，在使用 indexOf 方法进行索引的时候需要注意
+                let arrayOfIndex = [];
 
+                /* this.bookArr.forEach( (value, index) => {
+                     arrayOfIndex.push(index);
+                 } );*/
+
+                // 获取 bookArr 数组中的全部索引
+                // 赋值给 arrayOfIndex
                 getArrayIndexs(this.bookArr, arrayOfIndex);
 
-                // indexOf() 方法当索引 数组的时候， 是不能够将字符串转换的。因此 "1" & 1 是不相同的。
+                // indexOf() 方法当索引 数组的时候，
+                // 是不能够将字符串转换的。因此 "1" & 1 是不相同的。
 
-
+               // 对数组中的索引进行过滤
                this.bookIds = arrayOfIndex.filter( (value, index) => {
 
                     return this.bookIds.indexOf(index) < 0;

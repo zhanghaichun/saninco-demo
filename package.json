@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "animate.css": "^3.7.0",
+    "axios": "^0.18.0",
     "element-ui": "^2.4.8",
+    "qs": "^6.6.0",
     "vue": "^2.5.11",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -22,16 +24,23 @@
     "not ie <= 8"
   ],
   "devDependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
+    "babel-preset-stage-2": "6.24.1",
+    "babel-preset-latest": "6.24.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
+    "gsap": "^2.0.2",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "velocity-animate": "^1.5.2",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
+    "webpack": "^3.12.0",
     "webpack-dev-server": "^2.9.1"
   }
 }
